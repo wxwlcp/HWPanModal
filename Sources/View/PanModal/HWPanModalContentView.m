@@ -223,7 +223,7 @@
 }
 
 - (HWPanModalShadow)contentShadow {
-    return PanModalShadowMake(nil, 0, CGSizeZero, 0);
+    return PanModalShadowMake([[UIColor blackColor] colorWithAlphaComponent:0.3], 10, CGSizeMake(0,4), 1);
 }
 
 - (BOOL)showDragIndicator {
