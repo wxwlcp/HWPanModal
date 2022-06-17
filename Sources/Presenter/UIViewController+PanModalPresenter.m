@@ -19,7 +19,6 @@
     
     HWPanModalPresentationDelegate *delegate = [HWPanModalPresentationDelegate new];
     viewControllerToPresent.hw_panModalPresentationDelegate = delegate;
-
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
         (sourceView && !CGRectEqualToRect(rect, CGRectZero))) {
         viewControllerToPresent.modalPresentationStyle = UIModalPresentationPopover;

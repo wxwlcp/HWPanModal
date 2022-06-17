@@ -29,6 +29,8 @@ static NSString *const kScrollViewKVOContentOffsetKey = @"contentOffset";
 
 @property (nonatomic, assign) CGFloat anchoredYPosition;
 
+
+
 @property (nonatomic, strong) id<HWPanModalPresentable> presentable;
 
 // keyboard handle
@@ -721,6 +723,26 @@ static NSString *const kScrollViewKVOContentOffsetKey = @"contentOffset";
 - (CGFloat)anchoredYPosition {
     CGFloat defaultTopOffset = [self.presentable topOffset];
     return self.anchorModalToLongForm ? self.longFormYPosition : defaultTopOffset;
+}
+
+- (CGFloat)leftMargin{
+    if([self.presentable respondsToSelector:@selector(containLeftOffset)]){
+        return [self.presentable containLeftOffset];
+    }
+    return 0;
+}
+
+- (CGFloat)rightMargin{
+    if([self.presentable respondsToSelector:@selector(containRigheOffset)]){
+        return [self.presentable containRigheOffset];
+    }
+    return 0;
+}
+- (CGFloat)customContainViewWidth{
+    if([self.presentable respondsToSelector:@selector(customContainViewWidth)]){
+        return [self.presentable customContainViewWidth];
+    }
+    return 0;
 }
 
 #pragma mark - Dealloc

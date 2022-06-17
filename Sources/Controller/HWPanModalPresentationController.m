@@ -207,10 +207,14 @@
 		return;
 
 	CGRect frame = self.containerView.frame;
-	CGSize size = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) - self.handler.anchoredYPosition);
-
+	CGSize size = CGSizeMake(CGRectGetWidth(frame) - self.handler.leftMargin - self.handler.rightMargin, CGRectGetHeight(frame) - self.handler.anchoredYPosition);
+    CGFloat left = self.handler.leftMargin;
+    if(self.handler.customContainViewWidth){
+        size.width = self.handler.customContainViewWidth;
+        left = (frame.size.width - size.width)*0.5;
+    }
 	self.presentedView.hw_size = frame.size;
-	self.panContainerView.contentView.frame = CGRectMake(0, 0, size.width, size.height);
+	self.panContainerView.contentView.frame = CGRectMake(left, 0, size.width, size.height);
 	self.presentedViewController.view.frame = self.panContainerView.contentView.bounds;
     [self.presentedViewController.view setNeedsLayout];
     [self.presentedViewController.view layoutIfNeeded];

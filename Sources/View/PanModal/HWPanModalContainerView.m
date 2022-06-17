@@ -197,11 +197,16 @@
 #pragma mark - layout
 
 - (void)adjustPresentedViewFrame {
+    self.frame = self.presentingView.bounds;
     CGRect frame = self.frame;
     CGSize size = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) - self.handler.anchoredYPosition);
-    
+    CGFloat left = self.handler.leftMargin;
+    if(self.handler.customContainViewWidth){
+        size.width = self.handler.customContainViewWidth;
+        left = (frame.size.width - size.width)*0.5;
+    }
     self.panContainerView.hw_size = frame.size;
-    self.panContainerView.contentView.frame = CGRectMake(0, 0, size.width, size.height);
+    self.panContainerView.contentView.frame = CGRectMake(left, 0, size.width, size.height);
     self.contentView.frame = self.panContainerView.contentView.bounds;
     [self.contentView setNeedsLayout];
     [self.contentView layoutIfNeeded];

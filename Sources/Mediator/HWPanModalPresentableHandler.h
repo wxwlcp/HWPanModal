@@ -71,6 +71,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) BOOL anchorModalToLongForm;
 @property (nonatomic, assign, readonly) CGFloat anchoredYPosition;
 
+@property (assign, nonatomic) CGFloat leftMargin;
+
+@property (assign, nonatomic) CGFloat rightMargin;
+
+@property (assign, nonatomic) CGFloat customContainViewWidth;
+
 @property (nonatomic, strong, readonly) UIPanGestureRecognizer *panGestureRecognizer;
 // make controller or view to deal with the gesture action
 @property (nonatomic, strong, readonly) UIPanGestureRecognizer *screenEdgeGestureRecognizer;
