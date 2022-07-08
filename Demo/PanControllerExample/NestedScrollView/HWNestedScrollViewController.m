@@ -139,6 +139,22 @@
     return PanModalHeightMake(PanModalHeightTypeMaxTopInset, 66);
 }
 
+-(BOOL)shouldRoundBottomCorners {
+    return true;
+}
+
+-(CGFloat)containLeftOffset {
+    return 50;
+}
+
+-(CGFloat)containRigheOffset {
+    return 50;
+}
+
+-(CGFloat)containBottomOffset {
+    return -50;
+}
+
 #pragma mark - touch action
 
 - (void)changeMenuIndex {

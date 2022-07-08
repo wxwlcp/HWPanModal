@@ -71,7 +71,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) BOOL anchorModalToLongForm;
 @property (nonatomic, assign, readonly) CGFloat anchoredYPosition;
 
+
 @property (assign, nonatomic) CGFloat leftMargin;
+
+@property (assign, nonatomic) CGFloat bottomMargin;
 
 @property (assign, nonatomic) CGFloat rightMargin;
 

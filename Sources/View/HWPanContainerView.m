@@ -11,6 +11,9 @@
 
 @property (nonatomic, strong) UIView *contentView;
 
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
+
+
 @end
 
 @implementation HWPanContainerView
@@ -23,9 +26,17 @@
     	_contentView.frame = self.bounds;
 		[self addSubview:_contentView];
 		[_contentView addSubview:presentedView];
+        _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView)];
+        [self addGestureRecognizer:_tapGestureRecognizer];
     }
 	
     return self;
+}
+
+#pragma mark - touch action
+
+- (void)didTapView {
+    self.tapBlock ? self.tapBlock(self.tapGestureRecognizer) : nil;
 }
 
 - (void)updateShadow:(UIColor *)shadowColor shadowRadius:(CGFloat)shadowRadius shadowOffset:(CGSize)shadowOffset shadowOpacity:(float)shadowOpacity {

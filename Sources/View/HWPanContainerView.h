@@ -9,10 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^didTap)(UITapGestureRecognizer *recognizer);
+
 @interface HWPanContainerView : UIView
 
 /// the presented view should add to the content view.
 @property (nonatomic, strong, readonly) UIView *contentView;
+
+@property (nullable, nonatomic, copy) didTap tapBlock;
+
 
 - (instancetype)initWithPresentedView:(UIView *)presentedView frame:(CGRect)frame;
 

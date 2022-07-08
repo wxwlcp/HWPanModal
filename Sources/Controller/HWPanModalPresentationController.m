@@ -138,9 +138,11 @@
 		if (self && [self presentable]) {
 			[self adjustPresentedViewFrame];
 
-			if ([self.presentable shouldRoundTopCorners]) {
-				[self addRoundedCornersToView:self.panContainerView.contentView];
-			}
+			if ([self.presentable shouldRoundTopCorners] && [self.presentable shouldRoundBottomCorners]) {
+				[self addRoundedCornersToView:self.panContainerView.contentView both:YES];
+            } else if ([self.presentable shouldRoundTopCorners]) {
+                [self addRoundedCornersToView:self.panContainerView.contentView both:NO];
+            }
             [self updateDragIndicatorView];
 		}
 	} completion:^(id <UIViewControllerTransitionCoordinatorContext> context) {
@@ -207,7 +209,7 @@
 		return;
 
 	CGRect frame = self.containerView.frame;
-	CGSize size = CGSizeMake(CGRectGetWidth(frame) - self.handler.leftMargin - self.handler.rightMargin, CGRectGetHeight(frame) - self.handler.anchoredYPosition);
+	CGSize size = CGSizeMake(CGRectGetWidth(frame) - self.handler.leftMargin - self.handler.rightMargin, CGRectGetHeight(frame) - self.handler.anchoredYPosition + self.handler.bottomMargin);
     CGFloat left = self.handler.leftMargin;
     if(self.handler.customContainViewWidth){
         size.width = self.handler.customContainViewWidth;
@@ -291,25 +293,30 @@
 }
 
 - (void)updateRoundedCorners {
-	if ([self.presentable shouldRoundTopCorners]) {
-		[self addRoundedCornersToView:self.panContainerView.contentView];
-	} else {
-		[self resetRoundedCornersToView:self.panContainerView.contentView];
-	}
+    if ([self.presentable shouldRoundTopCorners] && [self.presentable shouldRoundBottomCorners]) {
+        [self addRoundedCornersToView:self.panContainerView.contentView both:YES];
+    } else if ([self.presentable shouldRoundTopCorners]) {
+        [self addRoundedCornersToView:self.panContainerView.contentView both:NO];
+    } else {
+        [self resetRoundedCornersToView:self.panContainerView.contentView];
+    }
 }
 
-- (void)addRoundedCornersToView:(UIView *)view {
-	CGFloat radius = [self.presentable cornerRadius];
+- (void)addRoundedCornersToView:(UIView *)view both:(BOOL)both{
+    CGFloat radius = [self.presentable cornerRadius];
 
-	UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners:UIRectCornerTopRight | UIRectCornerTopLeft cornerRadii:CGSizeMake(radius, radius)];
-	
-	CAShapeLayer *mask = [CAShapeLayer new];
-	mask.path = bezierPath.CGPath;
-	view.layer.mask = mask;
+    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners:UIRectCornerTopRight | UIRectCornerTopLeft cornerRadii:CGSizeMake(radius, radius)];
+    
+    if (both) {
+        bezierPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners:UIRectCornerAllCorners  cornerRadii:CGSizeMake(radius, radius)];
+    }
+    CAShapeLayer *mask = [CAShapeLayer new];
+    mask.path = bezierPath.CGPath;
+    view.layer.mask = mask;
 
-	// 提高性能
-	view.layer.shouldRasterize = YES;
-	view.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    // 提高性能
+    view.layer.shouldRasterize = YES;
+    view.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
 - (void)resetRoundedCornersToView:(UIView *)view {
@@ -560,6 +567,16 @@
 - (HWPanContainerView *)panContainerView {
 	if (!_panContainerView) {
 		_panContainerView = [[HWPanContainerView alloc] initWithPresentedView:self.presentedViewController.view frame:self.containerView.frame];
+        if ([[self presentable] allowsTouchEventsPassingThroughTransitionView]) {
+            _panContainerView.userInteractionEnabled = NO;
+        } else {
+            __weak typeof(self) wkSelf = self;
+            _panContainerView.tapBlock = ^(UITapGestureRecognizer *recognizer) {
+                if ([[wkSelf presentable] allowsTapBackgroundToDismiss]) {
+                    [wkSelf dismiss:NO mode:PanModalInteractiveModeNone];
+                }
+            };
+        }
 	}
 
 	return _panContainerView;

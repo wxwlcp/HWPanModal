@@ -219,9 +219,15 @@
     return YES;
 }
 
+
+-(BOOL)shouldRoundBottomCorners {
+    return NO;
+}
+
 - (CGFloat)cornerRadius {
     return 8;
 }
+
 
 - (HWPanModalShadow)contentShadow {
     return PanModalShadowMake([[UIColor blackColor] colorWithAlphaComponent:0.3], 10, CGSizeMake(0,4), 1);

@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 @property (nonatomic, assign) BOOL isBlurMode;
 
+
 @end
 
 @implementation HWDimmedView

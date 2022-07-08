@@ -164,6 +164,14 @@
 	return YES;
 }
 
+-(BOOL)shouldRoundBottomCorners {
+    return NO;
+}
+
+-(CGFloat)bottomLayoutOffset {
+    return 0;
+}
+
 - (CGFloat)cornerRadius {
 	return 8;
 }

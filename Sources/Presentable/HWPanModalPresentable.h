@@ -120,6 +120,9 @@ typedef NS_ENUM(NSInteger, PresentingViewControllerAnimationStyle) {
 /// 视图距离左边的间距
 - (CGFloat)containLeftOffset;
 
+/// 视图距离底部的间距
+- (CGFloat)containBottomOffset;
+
 ///视图距离·                ······················································································································································································································································································································
 - (CGFloat)containRigheOffset;
 
@@ -264,6 +267,12 @@ typedef NS_ENUM(NSInteger, PresentingViewControllerAnimationStyle) {
  * Default is YES
  */
 - (BOOL)shouldRoundTopCorners;
+
+/**
+ * 是否顶部圆角
+ * Default is NO
+ */
+- (BOOL)shouldRoundBottomCorners;
 
 /**
  * 顶部圆角数值

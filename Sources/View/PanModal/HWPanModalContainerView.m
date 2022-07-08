@@ -290,18 +290,23 @@
 }
 
 - (void)updateRoundedCorners {
-    if ([self.presentable shouldRoundTopCorners]) {
-        [self addRoundedCornersToView:self.panContainerView.contentView];
+    if ([self.presentable shouldRoundTopCorners] && [self.presentable shouldRoundBottomCorners]) {
+        [self addRoundedCornersToView:self.panContainerView.contentView both:YES];
+    } else if ([self.presentable shouldRoundTopCorners]) {
+        [self addRoundedCornersToView:self.panContainerView.contentView both:YES];
     } else {
         [self resetRoundedCornersToView:self.panContainerView.contentView];
     }
 }
 
-- (void)addRoundedCornersToView:(UIView *)view {
+- (void)addRoundedCornersToView:(UIView *)view both:(BOOL)both{
     CGFloat radius = [self.presentable cornerRadius];
 
     UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners:UIRectCornerTopRight | UIRectCornerTopLeft cornerRadii:CGSizeMake(radius, radius)];
-
+    
+    if (both) {
+        bezierPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners:UIRectCornerAllCorners  cornerRadii:CGSizeMake(radius, radius)];
+    }
     CAShapeLayer *mask = [CAShapeLayer new];
     mask.path = bezierPath.CGPath;
     view.layer.mask = mask;
@@ -500,6 +505,16 @@
 - (HWPanContainerView *)panContainerView {
     if (!_panContainerView) {
         _panContainerView = [[HWPanContainerView alloc] initWithPresentedView:self.contentView frame:self.bounds];
+        if ([[self presentable] allowsTouchEventsPassingThroughTransitionView]) {
+            _panContainerView.userInteractionEnabled = NO;
+        } else {
+            __weak typeof(self) wkSelf = self;
+            _panContainerView.tapBlock = ^(UITapGestureRecognizer *recognizer) {
+                if ([[wkSelf presentable] allowsTapBackgroundToDismiss]) {
+                    [wkSelf dismiss:NO mode:PanModalInteractiveModeNone];
+                }
+            };
+        }
     }
 
     return _panContainerView;

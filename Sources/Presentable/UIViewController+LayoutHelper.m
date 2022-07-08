@@ -75,7 +75,7 @@
     if (UIAccessibilityIsVoiceOverRunning()) {
         return self.longFormYPos;
     } else {
-    	CGFloat shortFormYPos = [self topMarginFromPanModalHeight:[self shortFormHeight]] + [self topOffset];
+    	CGFloat shortFormYPos = [self topMarginFromPanModalHeight:[self shortFormHeight]] + [self topOffset] + [self containBottomOffset];
 		return MAX(shortFormYPos, self.longFormYPos);
     }
 }
@@ -84,13 +84,13 @@
     if (UIAccessibilityIsVoiceOverRunning()) {
         return self.longFormYPos;
     } else {
-        CGFloat mediumFormYPos = [self topMarginFromPanModalHeight:[self mediumFormHeight]] + [self topOffset];
+        CGFloat mediumFormYPos = [self topMarginFromPanModalHeight:[self mediumFormHeight]] + [self topOffset] + [self containBottomOffset];
         return MAX(mediumFormYPos, self.longFormYPos);
     }
 }
 
 - (CGFloat)longFormYPos {
-	return MAX([self topMarginFromPanModalHeight:[self longFormHeight]], [self topMarginFromPanModalHeight:PanModalHeightMake(PanModalHeightTypeMax, 0)]) + [self topOffset];
+    return MAX([self topMarginFromPanModalHeight:[self longFormHeight]], [self topMarginFromPanModalHeight:PanModalHeightMake(PanModalHeightTypeMax, 0)]) + [self topOffset] + [self containBottomOffset];;
 }
 
 /**
