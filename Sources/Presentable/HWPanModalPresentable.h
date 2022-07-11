@@ -117,14 +117,9 @@ typedef NS_ENUM(NSInteger, PresentingViewControllerAnimationStyle) {
 - (PresentationState)originPresentationState;
 
 
-/// 视图距离左边的间距
-- (CGFloat)containLeftOffset;
-
 /// 视图距离底部的间距
 - (CGFloat)containBottomOffset;
 
-///视图距离·                ······················································································································································································································································································································
-- (CGFloat)containRigheOffset;
 
 ///视图的总大小
 - (CGFloat)customContainViewWidth;

@@ -209,14 +209,13 @@
 		return;
 
 	CGRect frame = self.containerView.frame;
-	CGSize size = CGSizeMake(CGRectGetWidth(frame) - self.handler.leftMargin - self.handler.rightMargin, CGRectGetHeight(frame) - self.handler.anchoredYPosition + self.handler.bottomMargin);
-    CGFloat left = self.handler.leftMargin;
+	CGSize size = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) - self.handler.anchoredYPosition + self.handler.bottomMargin);
     if(self.handler.customContainViewWidth){
         size.width = self.handler.customContainViewWidth;
-        left = (frame.size.width - size.width)*0.5;
     }
-	self.presentedView.hw_size = frame.size;
-	self.panContainerView.contentView.frame = CGRectMake(left, 0, size.width, size.height);
+	self.presentedView.hw_size = size;
+    self.presentedView.hw_centerX = self.containerView.hw_centerX;
+	self.panContainerView.contentView.frame = CGRectMake(0, 0, size.width, size.height);
 	self.presentedViewController.view.frame = self.panContainerView.contentView.bounds;
     [self.presentedViewController.view setNeedsLayout];
     [self.presentedViewController.view layoutIfNeeded];
@@ -567,16 +566,6 @@
 - (HWPanContainerView *)panContainerView {
 	if (!_panContainerView) {
 		_panContainerView = [[HWPanContainerView alloc] initWithPresentedView:self.presentedViewController.view frame:self.containerView.frame];
-        if ([[self presentable] allowsTouchEventsPassingThroughTransitionView]) {
-            _panContainerView.userInteractionEnabled = NO;
-        } else {
-            __weak typeof(self) wkSelf = self;
-            _panContainerView.tapBlock = ^(UITapGestureRecognizer *recognizer) {
-                if ([[wkSelf presentable] allowsTapBackgroundToDismiss]) {
-                    [wkSelf dismiss:NO mode:PanModalInteractiveModeNone];
-                }
-            };
-        }
 	}
 
 	return _panContainerView;

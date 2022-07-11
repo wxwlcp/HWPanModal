@@ -723,13 +723,6 @@ static NSString *const kScrollViewKVOContentOffsetKey = @"contentOffset";
     return self.anchorModalToLongForm ? self.longFormYPosition : defaultTopOffset;
 }
 
-- (CGFloat)leftMargin{
-    if([self.presentable respondsToSelector:@selector(containLeftOffset)]){
-        return [self.presentable containLeftOffset];
-    }
-    return 0;
-}
-
 -(CGFloat)bottomMargin {
     if([self.presentable respondsToSelector:@selector(containBottomOffset)]){
         return [self.presentable containBottomOffset];
@@ -737,12 +730,7 @@ static NSString *const kScrollViewKVOContentOffsetKey = @"contentOffset";
     return 0;
 }
 
-- (CGFloat)rightMargin{
-    if([self.presentable respondsToSelector:@selector(containRigheOffset)]){
-        return [self.presentable containRigheOffset];
-    }
-    return 0;
-}
+
 - (CGFloat)customContainViewWidth{
     if([self.presentable respondsToSelector:@selector(customContainViewWidth)]){
         return [self.presentable customContainViewWidth];

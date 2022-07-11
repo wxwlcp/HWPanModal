@@ -81,9 +81,10 @@
     }
 
 	UIView *panView = context.containerView.panContainerView ?: toVC.view;
-	panView.frame = [context finalFrameForViewController:toVC];
+    panView.frame = toVC.view.frame;
+    panView.hw_centerX = context.containerView.hw_centerX;
 	panView.hw_top = context.containerView.frame.size.height;
-
+    
 	if ([presentable isHapticFeedbackEnabled]) {
         if (@available(iOS 10.0, *)) {
             [self.feedbackGenerator selectionChanged];
@@ -92,6 +93,7 @@
 
 	[HWPanModalAnimator animate:^{
 		panView.hw_top = yPos;
+        panView.hw_centerX = context.containerView.hw_centerX;
 	} config:presentable completion:^(BOOL completion) {
         
         if ([presentable shouldEnableAppearanceTransition]) {
